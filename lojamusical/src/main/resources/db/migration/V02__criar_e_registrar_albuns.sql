@@ -1,9 +1,9 @@
 CREATE TABLE album (
-	id INT NOT NULL AUTO_INCREMENT,
+	id SERIAL PRIMARY KEY,
 	nome VARCHAR(100) NOT NULL,
 	ano INT NOT NULL,
-	PRIMARY KEY(id)
-)
+	momento_criacao DATE DEFAULT CURRENT_DATE
+);
 
 INSERT INTO album (nome, ano) VALUES ('Penny Rain', 2019);
 INSERT INTO album (nome, ano) VALUES ('DARLING in the FRANXX ENDING vol.2', 2018);

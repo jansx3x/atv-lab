@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lpweb.lojamusical.model.base.EntityBase;
 
 @Entity
-@Table(name = "artista")
+@Table(name = "artista", schema = "lojamusical")
 public class Artista extends EntityBase{
 	
 	private String nome;
@@ -29,7 +29,7 @@ public class Artista extends EntityBase{
     }
 
 	@JsonIgnore
-	@ManyToMany(mappedBy = "categorias")
+	@ManyToMany(mappedBy = "artistas")
 	private final Set<Album> albuns = new LinkedHashSet<>();
 	
 	public String getNome() {
@@ -44,6 +44,16 @@ public class Artista extends EntityBase{
 	public void setNacionalidade(String nacionalidade) {
 		this.nacionalidade = nacionalidade;
 	}
-	
-	
+	public LocalDateTime getMomentoCriacao() {
+		return momentoCriacao;
+	}
+	public void setMomentoCriacao(LocalDateTime momentoCriacao) {
+		this.momentoCriacao = momentoCriacao;
+	}
+	public Set<Album> getAlbuns() {
+		return albuns;
+	}
+	public void adiciona(Album album) {
+        albuns.add(album);
+    }
 }

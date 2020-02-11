@@ -1,20 +1,20 @@
 package com.lpweb.lojamusical.controller.response;
 
 public class Erro {
-	
-	 private final String mensagem;
-	 private final String detalhes;
 
-	 public Erro(String mensagem, String detalhes) {
-		 this.mensagem = mensagem;
-		 this.detalhes = detalhes;
-	 }
+	private final String mensagem;
+    private final String detalhes;
 
-	public String getMensagem() {
-	    return mensagem;
-	}
+    public Erro(String mensagem, String detalhes) {
+        this.mensagem = mensagem;
+        this.detalhes = detalhes;
+    }
 
-	public String getDetalhes() {
-		return detalhes;
-	}
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public String getDetalhes() {
+        return detalhes;
+    }
 }

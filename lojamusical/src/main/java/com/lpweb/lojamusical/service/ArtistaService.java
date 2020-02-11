@@ -12,6 +12,7 @@ import com.lpweb.lojamusical.repository.ArtistaRepository;
 @Service
 public class ArtistaService {
 	
+	@SuppressWarnings("unused")
 	private final ArtistaRepository artistaRepository;
 	
 	private final GenericoService<Artista> genericoService;
@@ -25,7 +26,7 @@ public class ArtistaService {
 	
 
     @Transactional(readOnly = true)
-    public List<Artista> todas() {
+    public List<Artista> todos() {
         return genericoService.todos();
     }
 
@@ -43,5 +44,10 @@ public class ArtistaService {
     @Transactional
     public void excluiPor(Integer id) {
         genericoService.excluirPor(id );
+    }
+    
+    @Transactional
+    public Artista atualiza(Integer id, Artista artista) {
+        return this.genericoService.atualiza(artista, id);
     }
 }

@@ -1,9 +1,9 @@
 CREATE TABLE artista (
-	id INT NOT NULL AUTO_INCREMENT,
+	id SERIAL PRIMARY KEY,
 	nome VARCHAR(100) NOT NULL,
 	nacionalidade VARCHAR(100) NOT NULL,
-	PRIMARY KEY (id)
-)
+	momento_criacao DATE DEFAULT CURRENT_DATE
+);
 
 INSERT INTO artista (nome, nacionalidade) VALUES ('Anitta', 'Brasil');
 INSERT INTO artista (nome, nacionalidade) VALUES ('XX:me', 'Japão');

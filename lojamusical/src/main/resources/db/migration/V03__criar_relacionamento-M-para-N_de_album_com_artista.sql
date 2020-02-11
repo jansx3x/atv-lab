@@ -1,10 +1,9 @@
 CREATE TABLE album_artista (
-	album_id INT NOT NULL,
-	artista_id INT NOT NULL,
-	primary key (album_id, artista_id),
-	INDEX fk_album_has_artista_artista1_idx (artista_id ASC),
-  	INDEX fk_album_has_artista_album_idx (album_id ASC)
-)
+	album_id INTEGER NOT NULL references album(id),
+	artista_id INTEGER NOT NULL references artista(id)
+);
+
+ALTER TABLE album_artista ADD CONSTRAINT "ID_PKEY" PRIMARY KEY (album_id,artista_id);
 
 INSERT INTO album_artista (album_id, artista_id) VALUES ('3', '1');
 INSERT INTO album_artista (album_id, artista_id) VALUES ('4', '3');
