@@ -1,7 +1,6 @@
 package com.lpweb.lojamusical.controller;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -21,9 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lpweb.lojamusical.controller.event.HeaderLocationEvento;
-import com.lpweb.lojamusical.controller.response.Erro;
 import com.lpweb.lojamusical.controller.response.Resposta;
-import com.lpweb.lojamusical.controller.validation.Validacao;
 import com.lpweb.lojamusical.model.Artista;
 import com.lpweb.lojamusical.service.ArtistaService;
 
@@ -41,12 +38,14 @@ public class ArtistaController {
         this.service = service;
     }
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping
 	public Resposta<List<Artista>> lista() {
 		List<Artista> artistas = service.todos();
 		return Resposta.comDadosDe(artistas);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@PostMapping
     public ResponseEntity<Resposta<Artista>> salva(@Valid @RequestBody Artista artista,
                                                       HttpServletResponse response )  {
@@ -59,6 +58,7 @@ public class ArtistaController {
                 .body(Resposta.comDadosDe(artista));
     }
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping("/{id}")
     public Resposta<Artista> buscaPor(@PathVariable Integer id) {
       Artista artista = service.buscaPor(id);
@@ -71,6 +71,7 @@ public class ArtistaController {
         service.excluiPor(id);
     }
 	
+	@SuppressWarnings("unchecked")
 	@PutMapping("/{id}")
     public ResponseEntity<Resposta<Artista>> atualizar(@PathVariable Integer id,
                                                             @RequestBody Artista artista) {
@@ -79,14 +80,4 @@ public class ArtistaController {
 
         return ResponseEntity.ok(Resposta.comDadosDe(artistaManager));
     }
-	
-	private boolean existe(List<Erro> erros) {
-        return Objects.nonNull( erros ) &&  !erros.isEmpty();
-    }
-
-    private List<Erro> getErros(Artista artista) {
-        Validacao<Artista> validacao = new Validacao<>();
-        return validacao.valida(artista);
-    }
-    
 }

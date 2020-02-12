@@ -24,8 +24,8 @@ public class Album extends EntityBase{
 	
 	@ManyToMany
     @JoinTable(name = "album_artista",
-               joinColumns = @JoinColumn(name = "album_id"),
-               inverseJoinColumns = @JoinColumn(name = "artista_id")    )
+               joinColumns = {@JoinColumn(name = "album_id")},
+               inverseJoinColumns = {@JoinColumn(name = "artista_id")})
     private Set<Artista> artistas = new LinkedHashSet<>();
 	
 	@PrePersist

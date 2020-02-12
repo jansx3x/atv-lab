@@ -63,7 +63,8 @@ public class AlbumService {
         return albumRepository.filtrar(filtro, pageable );
     }
     
-    private void validaArtistas(Set<Artista> artistas) {
+    @SuppressWarnings("unused")
+	private void validaArtistas(Set<Artista> artistas) {
         if (artistas !=null && !artistas.isEmpty() )
             artistas.forEach(this::accept);
     }

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -29,8 +30,8 @@ public class Artista extends EntityBase{
     }
 
 	@JsonIgnore
-	@ManyToMany(mappedBy = "artistas")
-	private final Set<Album> albuns = new LinkedHashSet<>();
+	@ManyToMany(mappedBy = "artistas", fetch = FetchType.LAZY)			
+	private Set<Album> albuns = new LinkedHashSet<>();
 	
 	public String getNome() {
 		return nome;
