@@ -24,6 +24,8 @@ import com.lpweb.lojamusical.controller.response.Resposta;
 import com.lpweb.lojamusical.model.Musica;
 import com.lpweb.lojamusical.service.MusicaService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/musica")
 public class MusicaController {
@@ -38,6 +40,7 @@ public class MusicaController {
         this.musicaService = service;
     }
 	
+	@ApiOperation(value = "Retorna todos as músicas cadastradas no sistema")
 	@SuppressWarnings("unchecked")
 	@GetMapping
     public Resposta<List<Musica>> busca() {
@@ -47,19 +50,26 @@ public class MusicaController {
         return Resposta.comDadosDe(musicas);
     }
 	
+	@ApiOperation(value = "Adiciona uma nova música no sistema")
 	@SuppressWarnings("unchecked")
 	@PostMapping
     public ResponseEntity<Resposta<Musica>> salva(@Valid @RequestBody Musica musica,
                                                       HttpServletResponse response )  {
-		musicaService.salva(musica);
+		try {
+			musicaService.salva(musica);
 
-        publisher.publishEvent(new HeaderLocationEvento(this, response, musica.getId() ));
+			publisher.publishEvent(new HeaderLocationEvento(this, response, musica.getId() ));
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(Resposta.comDadosDe(musica));
+			return ResponseEntity
+			        .status(HttpStatus.CREATED)
+			        .body(Resposta.comDadosDe(musica));
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
     }
 	
+	@ApiOperation(value = "Retorna uma música")
 	@SuppressWarnings("unchecked")
 	@GetMapping("/{id}")
     public Resposta<Musica> buscaPor(@PathVariable Integer id) {
@@ -67,19 +77,26 @@ public class MusicaController {
       return Resposta.comDadosDe(musica );
     }
 	
+	@ApiOperation(value = "Remove uma música do sistema")
 	@DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void exclui(@PathVariable Integer id) {
 		musicaService.excluiPor(id);
     }
 	
+	@ApiOperation(value = "Atualizar uma música cadastrada no sistema")
 	@SuppressWarnings("unchecked")
 	@PutMapping("/{id}")
     public ResponseEntity<Resposta<Musica>> atualizar(@PathVariable Integer id,
                                                             @RequestBody Musica musica) {
 
-        Musica musicaManager = musicaService.atualiza(id, musica);
+        try {
+			Musica musicaManager = musicaService.atualiza(id, musica);
 
-        return ResponseEntity.ok(Resposta.comDadosDe(musicaManager));
+			return ResponseEntity.ok(Resposta.comDadosDe(musicaManager));
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
     }
 }

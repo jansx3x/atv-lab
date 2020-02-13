@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lpweb.lojamusical.model.base.EntityBase;
@@ -18,7 +20,9 @@ import com.lpweb.lojamusical.model.base.EntityBase;
 @Table(name = "artista", schema = "lojamusical")
 public class Artista extends EntityBase{
 	
+	@NotNull @NotEmpty
 	private String nome;
+	@NotNull @NotEmpty
 	private String nacionalidade;
 	
 	@Column(name = "momento_criacao")

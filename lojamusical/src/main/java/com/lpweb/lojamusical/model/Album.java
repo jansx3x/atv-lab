@@ -4,10 +4,17 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lpweb.lojamusical.model.base.EntityBase;
 
 @Entity
@@ -27,6 +34,11 @@ public class Album extends EntityBase{
                joinColumns = {@JoinColumn(name = "album_id")},
                inverseJoinColumns = {@JoinColumn(name = "artista_id")})
     private Set<Artista> artistas = new LinkedHashSet<>();
+	
+	@OneToMany(cascade = CascadeType.ALL,
+        orphanRemoval = true, 
+        mappedBy = "album")
+	private Set<Musica> musicas = new LinkedHashSet<>();
 	
 	@PrePersist
     private void persist() {
@@ -65,6 +77,18 @@ public class Album extends EntityBase{
 	public void adiciona(Artista artista) {
         artistas.add(artista);
     }
+
+	public void adiciona(Musica musica) {
+		musicas.add(musica);
+	}
+
+	public Set<Musica> getMusicas() {
+		return musicas;
+	}
+
+	public void setMusicas(Set<Musica> musicas) {
+		this.musicas = musicas;
+	}
 	
 	
 }

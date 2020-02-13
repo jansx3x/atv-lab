@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lpweb.lojamusical.controller.event.HeaderLocationEvento;
 import com.lpweb.lojamusical.controller.response.Resposta;
+import com.lpweb.lojamusical.model.Album;
 import com.lpweb.lojamusical.model.Artista;
 import com.lpweb.lojamusical.service.ArtistaService;
 
@@ -49,13 +50,18 @@ public class ArtistaController {
 	@PostMapping
     public ResponseEntity<Resposta<Artista>> salva(@Valid @RequestBody Artista artista,
                                                       HttpServletResponse response )  {
-		service.salva(artista);
+		try {
+			service.salva(artista);
 
-        publisher.publishEvent(new HeaderLocationEvento(this, response, artista.getId() ));
+			publisher.publishEvent(new HeaderLocationEvento(this, response, artista.getId() ));
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(Resposta.comDadosDe(artista));
+			return ResponseEntity
+			        .status(HttpStatus.CREATED)
+			        .body(Resposta.comDadosDe(artista));
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
     }
 	
 	@SuppressWarnings("unchecked")
@@ -75,9 +81,29 @@ public class ArtistaController {
 	@PutMapping("/{id}")
     public ResponseEntity<Resposta<Artista>> atualizar(@PathVariable Integer id,
                                                             @RequestBody Artista artista) {
+        try {
+			Artista artistaManager = service.atualiza(id, artista);
 
-        Artista artistaManager = service.atualiza(id, artista);
-
-        return ResponseEntity.ok(Resposta.comDadosDe(artistaManager));
+			return ResponseEntity.ok(Resposta.comDadosDe(artistaManager));
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
     }
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("/{id}/albuns")
+	public ResponseEntity<Resposta<Album>> listarAlbuns(@PathVariable Integer id, HttpServletResponse response) {
+		try {
+			Artista artista = service.buscaPor(id);
+			
+			if(!artista.getAlbuns().isEmpty()) {
+				return ResponseEntity.ok(Resposta.comDadosDe(artista.getAlbuns()));
+			}
+			return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 }

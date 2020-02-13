@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lpweb.lojamusical.controller.event.HeaderLocationEvento;
 import com.lpweb.lojamusical.controller.response.Resposta;
 import com.lpweb.lojamusical.model.Album;
+import com.lpweb.lojamusical.model.Musica;
 import com.lpweb.lojamusical.repository.filter.AlbumFiltro;
 import com.lpweb.lojamusical.service.AlbumService;
 
@@ -52,13 +53,18 @@ public class AlbumController {
 	@PostMapping
     public ResponseEntity<Resposta<Album>> salva(@Valid @RequestBody Album album,
                                                       HttpServletResponse response )  {
-		albumService.salva(album);
+		try {
+			albumService.salva(album);
 
-        publisher.publishEvent(new HeaderLocationEvento(this, response, album.getId() ));
+			publisher.publishEvent(new HeaderLocationEvento(this, response, album.getId() ));
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(Resposta.comDadosDe(album));
+			return ResponseEntity
+			        .status(HttpStatus.CREATED)
+			        .body(Resposta.comDadosDe(album));
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
     }
 	
 	@SuppressWarnings("unchecked")
@@ -78,9 +84,47 @@ public class AlbumController {
 	@PutMapping("/{id}")
     public ResponseEntity<Resposta<Album>> atualizar(@PathVariable Integer id,
                                                             @RequestBody Album album) {
+        try {
+			Album albumManager = albumService.atualiza(id, album);
 
-        Album albumManager = albumService.atualiza(id, album);
-
-        return ResponseEntity.ok(Resposta.comDadosDe(albumManager));
+			return ResponseEntity.ok(Resposta.comDadosDe(albumManager));
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
     }
+	
+	@SuppressWarnings("unchecked")
+	@PutMapping("/{id}/adicionarArtista")
+	public ResponseEntity<Resposta<Album>> adicionarArtista(@PathVariable Integer idAlbum, @PathVariable Integer idArtista) {
+		try {
+			Album album = albumService.adicionarArtista(idAlbum, idArtista);
+			
+			Album albumManager = albumService.atualiza(idAlbum, album);
+
+			return ResponseEntity.ok(Resposta.comDadosDe(albumManager));
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("/{id}/adicionarMusica")
+	public ResponseEntity<Resposta<Musica>> adicionarMusica(@PathVariable Integer idAlbum, @PathVariable Integer idMusica) {
+		try {
+			Album album = albumService.adicionarMusica(idAlbum, idMusica);
+
+			Album albumManager = albumService.atualiza(idAlbum, album);
+
+			return ResponseEntity.ok(Resposta.comDadosDe(albumManager));
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+		
+	}
 }
