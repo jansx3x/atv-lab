@@ -13,6 +13,10 @@ body.artista {
     background-repeat: no-repeat;
 }
 
+.fonte {
+    font-style: normal;
+}
+
 main {
     position: relative;
     left: 0;
