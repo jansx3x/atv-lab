@@ -20,3 +20,20 @@ main {
     margin-left: 260px;
     min-height: 100%;
 }
+
+.bg-success,
+.btn-success {
+    background-color: #8bc34a!important;
+}
+.bg-primary,
+.btn-primary {
+    background-color: crimson!important;
+}
+.bg-danger,
+.btn-danger {
+    background-color: #ab47bc!important;
+}
+.bg-info,
+.btn-info {
+    background-color: #ffb300!important;
+}
