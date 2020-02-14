@@ -1,0 +1,16 @@
+html {
+    height: 100%;
+}
+
+body.artista{
+    background: url(../img/artistas.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+main {
+    position: relative;
+    left: 0;
+    margin-left: 260px;
+    min-height: 100%;
+}
