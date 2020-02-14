@@ -15,66 +15,66 @@
 
   <body class="h-100 artista">
 
-    <nav class="navbar bd-navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Adicionar Artistas</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <nav class="navbar bd-navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="#">Adicionar Artistas</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="menu">
+            <div class="collapse navbar-collapse" id="menu">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <form class="my-2 my-lg-0 ">
+                                <input class="form-control " type="search" placeholder="Search...">
+                            </form>
+                        </div>
+                        <div class="col-sm-2 text-right">
+                            <a class="btn btn-success my-2 my-sm-0 px-5 text-light">Pesquisar</a>
+                        </div>
+                    </div>
+                    <!--.row-->
+                </div>
+                <!--.container-->
+            </div>
+        </nav>
+
+        <main class="pt-4">
+
             <div class="container">
+                <h2 class="text-center mb-4 text text-white">Adicionar Novo Artista</h2>
                 <div class="row">
                     <div class="col">
-                        <form class="my-2 my-lg-0 ">
-                            <input class="form-control " type="search" placeholder="Search...">
+                        <form class="needs-validation" novalidate>
+                            <div class="form-group text-light">
+                                <label for="name fonte">Nome:</label>
+                                <input required type="text" class="form-control" id="nome" placeholder="Digite o nome do(s) Artista(s) (Separe com vírgulas)">
+                                <div class="invalid-feedback">
+                                    This field is mandatory
+                                </div>
+                                <div class="valid-feedback">
+                                    Correct
+                                </div>
+                            </div>
+                            <div class="form-group text-light">
+                                <label for="last-name">Nacionalidade:</label>
+                                <input type="text" class="form-control" id="nacionalidade" placeholder="Digite a nacionalidade do Artista">
+                                <div class="invalid-feedback">
+                                    This field is mandatory
+                                </div>
+                                <div class="valid-feedback">
+                                    Correct
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" aria-pressed="true">Salvar</button>
+                            <button type="submit" class="btn btn-secondary" aria-pressed="true">Alterar</button>
+                            <button type="submit" class="btn btn-danger" aria-pressed="true">Excluir</button>
                         </form>
                     </div>
-                    <div class="col-sm-2 text-right">
-                        <a class="btn btn-success my-2 my-sm-0 px-5 text-light">Pesquisar</a>
-                    </div>
-                </div>
-                <!--.row-->
-            </div>
-            <!--.container-->
-        </div>
-    </nav>
-
-    <main class="pt-4">
-
-        <div class="container">
-            <h2 class="text-center mb-4">Adicionar Novo Artista</h2>
-            <div class="row">
-                <div class="col">
-                    <form class="needs-validation" novalidate>
-                        <div class="form-group">
-                            <label for="name fonte">Nome:</label>
-                            <input required type="text" class="form-control" id="nome" placeholder="Digite o nome do(s) Artista(s) (Separe com vírgulas)">
-                            <div class="invalid-feedback">
-                                This field is mandatory
-                            </div>
-                            <div class="valid-feedback">
-                                Correct
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="last-name">Nacionalidade:</label>
-                            <input type="text" class="form-control" id="nacionalidade" placeholder="Digite a nacionalidade do Artista">
-                            <div class="invalid-feedback">
-                                This field is mandatory
-                            </div>
-                            <div class="valid-feedback">
-                                Correct
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" aria-pressed="true">Salvar</button>
-                        <button type="submit" class="btn btn-secondary" aria-pressed="true">Alterar</button>
-                        <button type="submit" class="btn btn-danger" aria-pressed="true">Excluir</button>
-                    </form>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 
     <!-- JavaScript (Opcional) -->
     <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->

@@ -8,13 +8,10 @@ body {
 }
 
 body.artista {
+    background-color: black;
     background-image: url(../img/artistas.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-}
-
-.fonte {
-    font-style: normal;
 }
 
 main {
