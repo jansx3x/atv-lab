@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lpweb.lojamusical.model.Album;
 import com.lpweb.lojamusical.model.Artista;
+import com.lpweb.lojamusical.model.Musica;
 import com.lpweb.lojamusical.repository.AlbumRepository;
 import com.lpweb.lojamusical.repository.filter.AlbumFiltro;
 
@@ -19,6 +20,9 @@ import com.lpweb.lojamusical.repository.filter.AlbumFiltro;
 public class AlbumService {
 	
 	private final AlbumRepository albumRepository;
+	
+	@Autowired
+	private MusicaService musicaService;
 	
  	@Autowired
     private ArtistaService artistaService;
@@ -63,7 +67,8 @@ public class AlbumService {
         return albumRepository.filtrar(filtro, pageable );
     }
     
-    private void validaArtistas(Set<Artista> artistas) {
+    @SuppressWarnings("unused")
+	private void validaArtistas(Set<Artista> artistas) {
         if (artistas !=null && !artistas.isEmpty() )
             artistas.forEach(this::accept);
     }
@@ -73,4 +78,25 @@ public class AlbumService {
         Integer id = Objects.requireNonNull(a.getId(), "O id da categoria não pode ser nulo");
         a = artistaService.buscaPor(id );
     }
+
+	public Album adicionarArtista(Integer idAlbum, Integer idArtista) {
+		Album album = buscaPor(idAlbum);
+		Artista artista = artistaService.buscaPor(idArtista );
+		if(artista != null && album != null) {
+			album.adiciona(artista);
+			return album;
+		}
+			return null;
+	}
+
+	public Album adicionarMusica(Integer idAlbum, Integer idMusica) {
+		Album album = buscaPor(idAlbum);
+		Musica musica = musicaService.buscaPor(idMusica);
+		if(album != null && musica != null) {
+			album.adiciona(musica);
+			return album;
+		}
+		return null;
+	}
+	
 }

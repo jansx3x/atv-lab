@@ -1,12 +1,10 @@
 package com.lpweb.lojamusical.repository.filter;
 
-import java.util.List;
-
 public class AlbumFiltro {
 
 	private String nome;
     private Integer ano;
-    private List<Integer> artistaId;
+    private Integer artistaId;
     
 	public String getNome() {
 		return nome;
@@ -20,13 +18,11 @@ public class AlbumFiltro {
 	public void setAno(Integer ano) {
 		this.ano = ano;
 	}
-	public List<Integer> getArtistaId() {
+	public Integer getArtistaId() {
 		return artistaId;
 	}
-	public void setArtistaId(List<Integer> artistaId) {
+	public void setArtistaId(Integer artistaId) {
 		this.artistaId = artistaId;
 	}
-	public void adiciona(Integer artistaId) {
-		this.artistaId.add(artistaId);
-	}
+	
 }

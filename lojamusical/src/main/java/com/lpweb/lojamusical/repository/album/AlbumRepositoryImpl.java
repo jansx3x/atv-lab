@@ -26,22 +26,17 @@ public class AlbumRepositoryImpl implements AlbumRepositoryQuery{
 
 		CriteriaBuilder cBuilder = manager.getCriteriaBuilder();
 
-        // 1. Select p From Produto p
         CriteriaQuery<Album> cQuery = cBuilder.createQuery(Album.class );
 
-        // 2. clausula from e joins
-        Root<Album> produtoRoot = cQuery.from(Album.class );
+        Root<Album> albumRoot = cQuery.from(Album.class );
 
-        // 3. adiciona as restrições (os predicados) que serão passadas na clausula where
-        Predicate[] restricoes = this.criaRestricoes(filtro, cBuilder, produtoRoot  );
+        Predicate[] restricoes = this.criaRestricoes(filtro, cBuilder, albumRoot  );
 
 
-        // 4. monta a consulta com as restrições
-        cQuery.select(produtoRoot)
+        cQuery.select(albumRoot)
               .where(restricoes )
-              .orderBy( cBuilder.desc(produtoRoot.get("nome")) );
+              .orderBy( cBuilder.desc(albumRoot.get("nome")) );
 
-        // 5. cria e executa a consula
         TypedQuery<Album> query = manager.createQuery(cQuery);
         adicionaRestricoesDePaginacao(query, pageable);
 
@@ -49,29 +44,26 @@ public class AlbumRepositoryImpl implements AlbumRepositoryQuery{
 	}
 
 
-	    private Predicate[] criaRestricoes(AlbumFiltro filtro, CriteriaBuilder cBuilder, Root<Album> produtoRoot) {
+	    private Predicate[] criaRestricoes(AlbumFiltro filtro, CriteriaBuilder cBuilder, Root<Album> albumRoot) {
 
 	        List<Predicate> predicates = new ArrayList<>();
 
 	        if ( !StringUtils.isEmpty( filtro.getNome()) ) {
-	            // where nome like %Computador%
-	            predicates.add(cBuilder.like(cBuilder.lower(produtoRoot.get("nome")), "%" + filtro.getNome().toLowerCase() + "%" ) );
+	        	
+	            predicates.add(cBuilder.like(cBuilder.lower(albumRoot.get("nome")), "%" + filtro.getNome().toLowerCase() + "%" ) );
 
 	        }
 
 	        if ( Objects.nonNull(filtro.getAno()) ) {
-	            predicates.add( cBuilder.ge( produtoRoot.get("ano"), filtro.getAno() ));
+	            predicates.add( cBuilder.ge( albumRoot.get("ano"), filtro.getAno() ));
 	        }
 
 	        if (Objects.nonNull(filtro.getArtistaId()) ) {
 
-	            for (Integer id : filtro.getArtistaId()) {
-	            	// antes fazemos o join com categorias
-		            Path<Integer> categoriaPath = produtoRoot.join("categorias").<Integer>get("id");
-
-		            // semelhante a clausula "on" do critério de junção
-		            predicates.add ( cBuilder.equal(categoriaPath, id ) );
-				} 	
+	            Path<Integer> categoriaPath = albumRoot.join("artistas").<Integer>get("id");
+	
+	            predicates.add ( cBuilder.equal(categoriaPath, filtro.getArtistaId() ) );
+			
 	        }
 
 	        return predicates.toArray(new Predicate[ predicates.size() ] );
