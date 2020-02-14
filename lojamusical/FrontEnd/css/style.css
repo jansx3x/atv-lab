@@ -3,7 +3,11 @@ html {
 }
 
 body {
-    background-color: gray;
+    min-height: 100%;
+    color: gray;
+}
+
+body.artista {
     background-image: url(../img/artistas.jpg);
     background-size: cover;
     background-repeat: no-repeat;
