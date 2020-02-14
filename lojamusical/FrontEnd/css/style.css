@@ -2,8 +2,9 @@ html {
     height: 100%;
 }
 
-body.artista{
-    background: url(../img/artistas.jpg);
+body {
+    background-color: gray;
+    background-image: url(../img/artistas.jpg);
     background-size: cover;
     background-repeat: no-repeat;
 }
